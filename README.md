@@ -32,16 +32,11 @@ IntDevQA/
    ```bash
    git clone https://github.com/pestoura/IntDevQA.git
 
- 
+2. **Navigate to Directory: Enter the project directory.
 
-# How to Use
-Clone Repository: Clone this repository to your local machine.
+   '''bash
+   cd IntDevQA
 
-git clone https://github.com/your-username/folder-sync.git
-
-Navigate to Directory: Enter the project directory.
-cd folder-sync
-
-Run the Script: Execute the synchronization script with required command line arguments.
-python src/sync.py /path/to/source /path/to/replica 60 /path/to/logfile.log
-Replace /path/to/source, /path/to/replica, 60, and 
+3. Run the Script: Execute the synchronization script with required command line arguments.
+   '''bash
+   python src/sync.py /path/to/source /path/to/replica 60 /path/to/logfile.log
