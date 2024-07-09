@@ -80,4 +80,8 @@ class TestSyncFolders(unittest.TestCase):
 
 
 if __name__ == '__main__':
+    # Configurar logging para capturar apenas mensagens de nível INFO e acima
+    logging.basicConfig(level=logging.INFO)
+
+    # Executar os testes
     unittest.main()
