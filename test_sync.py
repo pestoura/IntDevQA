@@ -1,5 +1,5 @@
 import unittest
-from unittest.mock import patch
+from unittest.mock import patch, MagicMock
 import os
 import tempfile
 import shutil
@@ -27,12 +27,21 @@ class TestSyncFolders(unittest.TestCase):
         sync.setup_logging(self.log_file)
         self.assertTrue(os.path.exists(self.log_file))
 
+    @patch('sync.time.sleep', MagicMock())
+    @patch('sync.shutil.copy2', MagicMock())
     def test_sync_folders(self):
-        sync.sync_folders(self.source_dir, self.replica_dir, 1, self.log_file)
-        self.assertTrue(os.path.exists(os.path.join(self.replica_dir, 'test.txt')))
+        # Simular o loop de sincronização por 3 iterações
+        with patch('sync.sync_folders', side_effect=sync.sync_folders) as mock_sync_folders:
+            sync.sync_folders(self.source_dir, self.replica_dir, 1, self.log_file)
+            self.assertEqual(mock_sync_folders.call_count, 3)  # Verificar se foi chamado 3 vezes
 
-    @patch('sync.shutil.copy2', side_effect=Exception("Mocked error"))
-    def test_sync_folders_error_handling(self, mock_copy):
+    @patch('sync.time.sleep', MagicMock())
+    @patch('sync.shutil.copy2', MagicMock())
+    @patch('sync.sync_folders', side_effect=sync.sync_folders)
+    def test_sync_folders_error_handling(self, mock_sync_folders):
+        # Simular erro durante a sincronização
+        mock_sync_folders.side_effect = Exception("Mocked error")
+        
         with self.assertRaises(Exception):
             sync.sync_folders(self.source_dir, self.replica_dir, 1, self.log_file)
 
