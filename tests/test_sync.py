@@ -1,4 +1,5 @@
 
+
 import os
 import unittest
 import tempfile
@@ -19,7 +20,7 @@ class TestFolderSync(unittest.TestCase):
         self.logger = logging.getLogger(__name__)
 
     def tearDown(self):
-        # Remove temporary directories
+        # Remove temporary directories and log file
         shutil.rmtree(self.source_dir)
         shutil.rmtree(self.replica_dir)
         if os.path.exists(self.log_file):
@@ -95,6 +96,9 @@ class TestFolderSync(unittest.TestCase):
         with open(self.log_file, 'r') as log:
             log_content = log.read()
         self.assertIn('Synchronization complete', log_content)
+        self.assertIn('created file', log_content)
+        self.assertIn('deleted file', log_content)
+        self.assertIn('updated file', log_content)
 
 if __name__ == '__main__':
     unittest.main()
