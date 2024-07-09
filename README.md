@@ -6,12 +6,12 @@ This Python script facilitates one-way synchronization of two folders: a source 
 folder-sync/
 │
 ├── src/
-│   ├── __init__.py
-│   └── sync.py
+│ ├── init.py
+│ └── sync.py
 │
 ├── tests/
-│   ├── __init__.py
-│   └── test_sync.py
+│ ├── init.py
+│ └── test_sync.py
 │
 ├── README.md
 ├── requirements.txt
