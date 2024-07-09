@@ -29,18 +29,32 @@ IntDevQA/
 ## How to Use
 
 1. **Clone Repository:** Clone this repository to your local machine.
-
-   ```bash
-   git clone https://github.com/pestoura/IntDevQA.git
+```bash
+git clone https://github.com/pestoura/IntDevQA.git
 
 2. **Navigate to Directory:** Enter the project directory.
+```bash
+cd IntDevQA
 
-   ```bash
-   cd IntDevQA
+3. **Install Dependencies:** Install the necessary dependencies listed in requirements.txt. It's recommended to do this in a virtual environment.
+```bash
+pip install -r requirements.txt
 
-3. **Run the Script:** Execute the synchronization script with required command line arguments.
-   ```bash
-   python src/sync.py /path/to/source /path/to/replica 60 /path/to/logfile.log
+4. **Run the Script:** Execute the synchronization script with required command line arguments.
+ ```bash
+ python src/sync.py /path/to/source /path/to/replica 60 /path/to/logfile.log
+ Replace **/path/to/source**, **/path/to/replica**, 60, and **/path/to/logfile.log** with appropriate values for your setup.
+
+## Running Tests
+To run the unit tests, use the following command:
+ ```bash
+python -m unittest discover -s tests
+The tests will verify the following functionalities:
+
+**File Creation:** Checks if files created in the source directory are copied to the replica directory.
+**File Deletion:** Checks if files deleted from the source directory are removed from the replica directory.
+**File Update:** Checks if files updated in the source directory are updated in the replica directory.
+**Logging:** Verifies that log entries are recorded correctly after synchronization, including creation, deletion, and update of files.
 
 ## Contributing
 
