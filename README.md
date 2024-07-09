@@ -47,9 +47,9 @@ IntDevQA/
 
 ## Running Tests
 
-To run the unit tests, use the following command:  
-    ```bash
-    python -m unittest discover -s tests
+To run the unit tests, use the following command:
+``bash
+python src/sync.py /path/to/source /path/to/replica 60 /path/to/logfile.log
 
 The tests will verify the following functionalities:
 
