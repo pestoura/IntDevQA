@@ -5,40 +5,48 @@ import time
 import logging
 
 def sync_folders(source_dir, replica_dir, interval, log_file):
-    # Set up logging
-    logging.basicConfig(filename=log_file, level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+    # Configurar o logger
+    logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+
+    # Adicionar um manipulador para log para a saída da console
+    console_handler = logging.StreamHandler()
+    console_handler.setLevel(logging.INFO)
+    formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+    console_handler.setFormatter(formatter)
+    logging.getLogger().addHandler(console_handler)
+
     logger = logging.getLogger(__name__)
 
-    logger.info(f"Starting synchronization from {source_dir} to {replica_dir} with interval {interval} seconds.")
+    logger.info(f"Iniciando sincronização de {source_dir} para {replica_dir} com intervalo de {interval} segundos.")
 
     while True:
         try:
-            # Your synchronization logic here
+            # Lógica de sincronização
             for root, _, files in os.walk(source_dir):
                 for file in files:
                     src_file_path = os.path.join(root, file)
                     rel_path = os.path.relpath(src_file_path, source_dir)
                     dst_file_path = os.path.join(replica_dir, rel_path)
 
-                    # Example: Copy file from source to replica
+                    # Exemplo: Copiar arquivo de origem para réplica
                     shutil.copy2(src_file_path, dst_file_path)
-                    logger.info(f"Copied file: {src_file_path} to {dst_file_path}")
+                    logger.info(f"Arquivo copiado: {src_file_path} para {dst_file_path}")
 
-            logger.info("Synchronization complete.")
+            logger.info("Sincronização completa.")
 
-            # Sleep for the specified interval
+            # Aguardar o intervalo especificado
             time.sleep(interval)
 
         except Exception as e:
-            logger.error(f"Error during synchronization: {str(e)}")
+            logger.error(f"Erro durante a sincronização: {str(e)}")
             raise
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Folder synchronization script")
-    parser.add_argument("source_dir", help="Path to source directory")
-    parser.add_argument("replica_dir", help="Path to replica directory")
-    parser.add_argument("interval", type=int, help="Synchronization interval in seconds")
-    parser.add_argument("log_file", help="Path to log file")
+    parser = argparse.ArgumentParser(description="Script de sincronização de diretórios")
+    parser.add_argument("source_dir", help="Caminho para o diretório de origem")
+    parser.add_argument("replica_dir", help="Caminho para o diretório de réplica")
+    parser.add_argument("interval", type=int, help="Intervalo de sincronização em segundos")
+    parser.add_argument("log_file", help="Caminho para o arquivo de log")
 
     args = parser.parse_args()
 
