@@ -8,7 +8,7 @@ import time
 import sys
 
 # Adicione o diretório 'src' ao caminho do Python
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../src')))
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), 'src')))
 
 import sync  # Importa o script sync.py do diretório src
 
