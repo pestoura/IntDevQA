@@ -52,7 +52,7 @@ IntDevQA/
 
 ## Running Tests
 
-    ```python -m unittest discover -s tests
+python -m unittest discover -s tests
 
 The tests will verify the following functionalities:
 
