@@ -37,7 +37,7 @@ IntDevQA/
    ```sh
    cd IntDevQA
    ```
-
+   
 3. **Install Dependencies:** Install the necessary dependencies listed in requirements.txt. It's recommended to do this in a virtual environment.
    ```bash
    pip install -r requirements.txt
@@ -51,10 +51,10 @@ IntDevQA/
 - Note: The synchronization interval (60 in this example) is specified in seconds.
 ## Running Tests
 
-To run the unit tests, use the following command:  
-    ```bash
+To run the unit tests, use the following command:
+    ```sh
    python -m unittest discover -s tests
-   ```  
+
 The tests will verify the following functionalities:
 
 - **File Creation:** Checks if files created in the source directory are copied to the replica directory.
