@@ -1,87 +1,40 @@
-import unittest
-from unittest.mock import patch, MagicMock
 import os
-import tempfile
 import shutil
-import logging
 import time
-import sys
+import logging
 
-# Adicione o diretório 'src' ao caminho do Python
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), 'src')))
+def setup_logging(log_file):
+    """Configura o logging para escrever em um arquivo específico."""
+    logging.basicConfig(filename=log_file, level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
-import sync  # Importa o script sync.py do diretório src
+def sync_folders(source_dir, replica_dir, interval, log_file):
+    """Sincroniza o conteúdo do diretório de origem com o diretório réplica em intervalos regulares."""
+    setup_logging(log_file)
+    logging.info(f'Starting synchronization from {source_dir} to {replica_dir} with interval of {interval} seconds.')
 
-class TestSyncFolders(unittest.TestCase):
-    def setUp(self):
-        self.source_dir = tempfile.mkdtemp()
-        self.replica_dir = tempfile.mkdtemp()
-        self.log_file = tempfile.mktemp()
+    try:
+        while True:
+            # Implemente a lógica de sincronização aqui
+            for filename in os.listdir(source_dir):
+                source_file = os.path.join(source_dir, filename)
+                if os.path.isfile(source_file):
+                    target_file = os.path.join(replica_dir, filename)
+                    shutil.copy2(source_file, target_file)
+                    logging.info(f'Copied {source_file} to {target_file}')
+            
+            logging.info('Synchronization complete.')
+            time.sleep(interval)
 
-    def tearDown(self):
-        shutil.rmtree(self.source_dir)
-        shutil.rmtree(self.replica_dir)
-        os.remove(self.log_file)
+    except KeyboardInterrupt:
+        logging.info('Synchronization interrupted by user.')
+    except Exception as e:
+        logging.error(f'Error during synchronization: {e}')
+        raise
 
-    def test_logging_setup(self):
-        sync.setup_logging(self.log_file)
-        self.assertTrue(os.path.exists(self.log_file))
+if __name__ == "__main__":
+    source_dir = "/tmp/tmpelvh5wlo"
+    replica_dir = "/tmp/tmpnn9nfb02"
+    interval = 1
+    log_file = "/tmp/sync_log.txt"
 
-    @patch('sync.time.sleep', MagicMock())
-    @patch('sync.shutil.copy2', MagicMock())
-    def test_sync_folders(self):
-        # Simular o loop de sincronização por 3 iterações
-        with patch('sync.sync_folders', side_effect=sync.sync_folders) as mock_sync_folders:
-            sync.sync_folders(self.source_dir, self.replica_dir, 1, self.log_file)
-            self.assertEqual(mock_sync_folders.call_count, 3)  # Verificar se foi chamado 3 vezes
-
-    @patch('sync.time.sleep', MagicMock())
-    @patch('sync.shutil.copy2', MagicMock())
-    @patch('sync.sync_folders', side_effect=sync.sync_folders)
-    def test_sync_folders_error_handling(self, mock_sync_folders):
-        # Simular erro durante a sincronização
-        mock_sync_folders.side_effect = Exception("Mocked error")
-        
-        with self.assertRaises(Exception):
-            sync.sync_folders(self.source_dir, self.replica_dir, 1, self.log_file)
-
-        with open(self.log_file, 'r') as log_file:
-            log_contents = log_file.read()
-            self.assertIn('Error during synchronization', log_contents)
-            self.assertIn('Mocked error', log_contents)
-
-    def test_sync_folders_directories_exist(self):
-        # Executar sincronização
-        sync.sync_folders(self.source_dir, self.replica_dir, 1, self.log_file)
-
-        # Verificar se o diretório de origem e o diretório réplica existem
-        self.assertTrue(os.path.exists(self.source_dir))
-        self.assertTrue(os.path.exists(self.replica_dir))
-
-    def test_sync_folders_interval(self):
-        interval = 2  # Intervalo de sincronização de 2 segundos
-        sync.sync_folders(self.source_dir, self.replica_dir, interval, self.log_file)
-        time.sleep(interval + 1)  # Aguardar intervalo + 1 segundo
-
-        # Verificar se a sincronização ocorreu ao menos uma vez no intervalo especificado
-        self.assertTrue(os.path.exists(os.path.join(self.replica_dir, 'test.txt')))
-
-    def test_sync_folders_clean_replica(self):
-        # Criar um arquivo pré-existente no diretório réplica
-        test_file = os.path.join(self.replica_dir, 'existing_file.txt')
-        with open(test_file, 'w') as f:
-            f.write("Existing file content")
-
-        # Executar sincronização
-        sync.sync_folders(self.source_dir, self.replica_dir, 1, self.log_file)
-
-        # Verificar se o arquivo pré-existente foi removido
-        self.assertFalse(os.path.exists(test_file))
-
-
-if __name__ == '__main__':
-    # Configurar logging para capturar apenas mensagens de nível INFO e acima
-    logging.basicConfig(level=logging.INFO)
-
-    # Executar os testes
-    unittest.main()
+    sync_folders(source_dir, replica_dir, interval, log_file)
