@@ -41,7 +41,7 @@ IntDevQA/
    ```bash
    pip install -r requirements.txt
 
-4. **Run the Script:** Execute the synchronization script with required command line arguments.
+5. **Run the Script:** Execute the synchronization script with required command line arguments.
     ```bash
     python src/sync.py /path/to/source /path/to/replica 60 /path/to/logfile.log
  Replace **/path/to/source**, **/path/to/replica**, 60, and **/path/to/logfile.log** with appropriate values for your setup.
