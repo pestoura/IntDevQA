@@ -50,7 +50,6 @@ IntDevQA/
 To run the unit tests, use the following command:
    ```bash
    python -m unittest discover -s tests
-
 The tests will verify the following functionalities:
 
 - **File Creation:** Checks if files created in the source directory are copied to the replica directory.  
