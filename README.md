@@ -20,7 +20,7 @@ IntDevQA/
 - **Periodic Execution**: Synchronization process runs at intervals specified by the user.
 - **Logging**: Detailed logs of file operations (create, copy, delete) are generated to a specified log file and console output.
 - **Command Line Arguments**: Configure source folder path, replica folder path, synchronization interval, and log file path via command line arguments.
-- **Python Modules Used**: `os`, `shutil`, `time`, `argparse`, `logging`, `hashlib`, `subprocess`.
+- **Python Modules Used**: `os`, `shutil`, `time`, `argparse`, `logging`, `hashlib`.
 
 ## How to Use
 
