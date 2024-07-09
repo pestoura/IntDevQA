@@ -51,7 +51,7 @@ IntDevQA/
 - Note: The synchronization interval (60 in this example) is specified in seconds.
 ## Running Tests
 
-To run the unit tests, use the following command:
+To run the unit tests, use the following command
     ```sh
    python -m unittest discover -s tests
 
