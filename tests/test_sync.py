@@ -33,7 +33,7 @@ class TestFolderSync(unittest.TestCase):
             f.write('This is a test file.')
 
         # Run synchronization
-        sync_folders(self.source_dir, self.replica_dir, self.logger)
+        sync_folders(self.source_dir, self.replica_dir, 60, self.log_file, self.logger)  # Pass the logger to sync_folders
 
         # Check if the file was copied to the replica directory
         replica_file_path = os.path.join(self.replica_dir, 'test_file.txt')
@@ -56,7 +56,7 @@ class TestFolderSync(unittest.TestCase):
         os.remove(test_file_path)
 
         # Run synchronization
-        sync_folders(self.source_dir, self.replica_dir, self.logger)
+        sync_folders(self.source_dir, self.replica_dir, 60, self.log_file, self.logger)  # Pass the logger to sync_folders
 
         # Check if the file was deleted from the replica directory
         self.assertFalse(os.path.exists(replica_file_path))
@@ -68,14 +68,14 @@ class TestFolderSync(unittest.TestCase):
             f.write('This is the original file.')
 
         # Run initial synchronization
-        sync_folders(self.source_dir, self.replica_dir, self.logger)
+        sync_folders(self.source_dir, self.replica_dir, 60, self.log_file, self.logger)  # Pass the logger to sync_folders
 
         # Update the file in the source directory
         with open(test_file_path, 'w') as f:
             f.write('This is the updated file.')
 
         # Run synchronization
-        sync_folders(self.source_dir, self.replica_dir, self.logger)
+        sync_folders(self.source_dir, self.replica_dir, 60, self.log_file, self.logger)  # Pass the logger to sync_folders
 
         # Check if the file was updated in the replica directory
         replica_file_path = os.path.join(self.replica_dir, 'test_file.txt')
@@ -90,13 +90,13 @@ class TestFolderSync(unittest.TestCase):
             f.write('This is a test file.')
 
         # Run synchronization
-        sync_folders(self.source_dir, self.replica_dir, self.logger)
+        sync_folders(self.source_dir, self.replica_dir, 60, self.log_file, self.logger)  # Pass the logger to sync_folders
 
         # Check if log file contains the expected log entries
         with open(self.log_file, 'r') as log:
             log_content = log.read()
         self.assertIn('Synchronization complete', log_content)
-        self.assertIn('Copied file', log_content)  # Adjust to match the actual log message generated
+        self.assertIn('File copied', log_content)  # Adjust to match the actual log message generated
 
 if __name__ == '__main__':
     unittest.main()
