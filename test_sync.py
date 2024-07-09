@@ -41,6 +41,34 @@ class TestSyncFolders(unittest.TestCase):
             self.assertIn('Error during synchronization', log_contents)
             self.assertIn('Mocked error', log_contents)
 
+    def test_sync_folders_directories_exist(self):
+        # Executar sincronização
+        sync.sync_folders(self.source_dir, self.replica_dir, 1, self.log_file)
+
+        # Verificar se o diretório de origem e o diretório réplica existem
+        self.assertTrue(os.path.exists(self.source_dir))
+        self.assertTrue(os.path.exists(self.replica_dir))
+
+    def test_sync_folders_interval(self):
+        interval = 2  # Intervalo de sincronização de 2 segundos
+        sync.sync_folders(self.source_dir, self.replica_dir, interval, self.log_file)
+        time.sleep(interval + 1)  # Aguardar intervalo + 1 segundo
+
+        # Verificar se a sincronização ocorreu ao menos uma vez no intervalo especificado
+        self.assertTrue(os.path.exists(os.path.join(self.replica_dir, 'test.txt')))
+
+    def test_sync_folders_clean_replica(self):
+        # Criar um arquivo pré-existente no diretório réplica
+        test_file = os.path.join(self.replica_dir, 'existing_file.txt')
+        with open(test_file, 'w') as f:
+            f.write("Existing file content")
+
+        # Executar sincronização
+        sync.sync_folders(self.source_dir, self.replica_dir, 1, self.log_file)
+
+        # Verificar se o arquivo pré-existente foi removido
+        self.assertFalse(os.path.exists(test_file))
+
+
 if __name__ == '__main__':
     unittest.main()
-
