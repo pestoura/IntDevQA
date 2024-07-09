@@ -3,16 +3,16 @@ This Python script facilitates one-way synchronization of two folders: a source 
 
 # Project Structure and Conventions
 
-folder-sync/
-│
-├── src/
-│ ├── init.py
-│ └── sync.py
-│
-├── tests/
-│ ├── init.py
-│ └── test_sync.py
-│
-├── README.md
-├── requirements.txt
-└── setup.py
+folder-sync/  
+│  
+├── src/  
+│ ├── init.py  
+│ └── sync.py  
+│  
+├── tests/  
+│ ├── init.py  
+│ └── test_sync.py  
+│  
+├── README.md  
+├── requirements.txt  
+└── setup.py  
