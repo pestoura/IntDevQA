@@ -1,6 +1,22 @@
 # Internal Development in QA (SDET) 
 This Python script facilitates one-way synchronization of two folders: a source folder and a replica folder. The synchronization ensures that the replica folder maintains an identical copy of the source folder's contents, handling file creations, updates, and deletions as necessary.
 
+## Project Structure and Conventions
+
+IntDevQA/  
+│  
+├── src/  
+│ ├── init.py  
+│ └── sync.py  
+│  
+├── tests/  
+│ ├── init.py  
+│ └── test_sync.py  
+│  
+├── README.md  
+├── requirements.txt  
+└── setup.py 
+
 ## Features
 
 - **One-way Synchronization**: Automatically updates the replica folder to match the source folder's content.
@@ -16,21 +32,7 @@ This Python script facilitates one-way synchronization of two folders: a source 
    ```bash
    git clone https://github.com/pestoura/IntDevQA.git
 
-# Project Structure and Conventions
-
-folder-sync/  
-│  
-├── src/  
-│ ├── init.py  
-│ └── sync.py  
-│  
-├── tests/  
-│ ├── init.py  
-│ └── test_sync.py  
-│  
-├── README.md  
-├── requirements.txt  
-└── setup.py  
+ 
 
 # How to Use
 Clone Repository: Clone this repository to your local machine.
