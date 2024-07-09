@@ -4,10 +4,35 @@ import os
 import time
 import logging
 
+def setup_logging(log_file):
+    """
+    Set up logging configuration to log to both console and file.
+
+    Args:
+    - log_file (str): Path to the log file.
+    """
+    # Configure root logger
+    root_logger = logging.getLogger()
+    root_logger.setLevel(logging.DEBUG)
+
+    # Formatter for log messages
+    formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+
+    # Console handler
+    console_handler = logging.StreamHandler()
+    console_handler.setLevel(logging.INFO)
+    console_handler.setFormatter(formatter)
+    root_logger.addHandler(console_handler)
+
+    # File handler
+    file_handler = logging.FileHandler(log_file)
+    file_handler.setLevel(logging.INFO)
+    file_handler.setFormatter(formatter)
+    root_logger.addHandler(file_handler)
+
 def sync_folders(source_dir, replica_dir, interval, log_file):
     """
-    Synchronize folders from source directory to replica directory at specified intervals,
-    logging operations to both a log file and console.
+    Synchronize folders from source directory to replica directory at specified intervals.
 
     Args:
     - source_dir (str): Path to source directory.
@@ -18,18 +43,8 @@ def sync_folders(source_dir, replica_dir, interval, log_file):
     Raises:
     - Exception: If any error occurs during synchronization.
     """
-    # Configure logging to file
-    logging.basicConfig(filename=log_file, level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
-
-    # Check if a console handler already exists
-    root_logger = logging.getLogger()
-    if not root_logger.handlers:
-        # Add a console handler
-        console_handler = logging.StreamHandler()
-        console_handler.setLevel(logging.INFO)
-        formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
-        console_handler.setFormatter(formatter)
-        root_logger.addHandler(console_handler)
+    # Set up logging to both console and file
+    setup_logging(log_file)
 
     logger = logging.getLogger(__name__)
 
@@ -65,10 +80,5 @@ if __name__ == "__main__":
     parser.add_argument("log_file", help="Path to the log file")
 
     args = parser.parse_args()
-
-    # Ensure log file directory exists
-    log_dir = os.path.dirname(args.log_file)
-    if not os.path.exists(log_dir):
-        os.makedirs(log_dir)
 
     sync_folders(args.source_dir, args.replica_dir, args.interval, args.log_file)
