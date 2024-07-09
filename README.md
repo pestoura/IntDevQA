@@ -43,8 +43,8 @@ IntDevQA/
 5. **Run the Script:** Execute the synchronization script with required command line arguments.
     ```bash
     python src/sync.py /path/to/source /path/to/replica 60 /path/to/logfile.log
- Replace **/path/to/source**, **/path/to/replica**, 60, and **/path/to/logfile.log** with appropriate values for your setup.
-
+- Replace **/path/to/source**, **/path/to/replica**, 60, and **/path/to/logfile.log** with appropriate values for your setup.
+- Note: The synchronization interval (60 in this example) is specified in seconds.
 ## Running Tests
 
 To run the unit tests, use the following command:  
