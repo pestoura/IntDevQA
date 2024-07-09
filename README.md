@@ -53,13 +53,13 @@ To run the unit tests, use the following command:
     
 The tests will verify the following functionalities:
 
-`*`**File Creation:** Checks if files created in the source directory are copied to the replica directory.  
+- **File Creation:** Checks if files created in the source directory are copied to the replica directory.  
 
-`*`**File Deletion:** Checks if files deleted from the source directory are removed from the replica directory. 
+- **File Deletion:** Checks if files deleted from the source directory are removed from the replica directory. 
 
-`*`**File Update:** Checks if files updated in the source directory are updated in the replica directory.  
+- **File Update:** Checks if files updated in the source directory are updated in the replica directory.  
 
-`*`**Logging:** Verifies that log entries are recorded correctly after synchronization, including creation, deletion, and update of files.
+- **Logging:** Verifies that log entries are recorded correctly after synchronization, including creation, deletion, and update of files.
 
 ## Contributing
 
