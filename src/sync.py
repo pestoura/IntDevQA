@@ -20,14 +20,6 @@ def sync_folders(source_dir, replica_dir, logger=None):
                     if not os.path.exists(src_file_path):
                         os.remove(dst_file_path)
                         logger.info(f"Deleted file: {dst_file_path}")
-                    else:
-                        # Check if file contents differ and update if necessary
-                        with open(src_file_path, 'rb') as src_file, open(dst_file_path, 'rb') as dst_file:
-                            src_content = src_file.read()
-                            dst_content = dst_file.read()
-                            if src_content != dst_content:
-                                shutil.copy2(src_file_path, dst_file_path)
-                                logger.info(f"Updated file: {dst_file_path}")
                 else:
                     # Copy new file to replica
                     shutil.copy2(src_file_path, dst_file_path)
