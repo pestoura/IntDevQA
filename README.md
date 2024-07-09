@@ -27,16 +27,16 @@ IntDevQA/
 
 ## How to Use
 
-1. **Clone Repository**: Clone this repository to your local machine.
+1. **Clone Repository:** Clone this repository to your local machine.
 
    ```bash
    git clone https://github.com/pestoura/IntDevQA.git
 
-2. **Navigate to Directory: Enter the project directory.
+2. **Navigate to Directory:** Enter the project directory.
 
    ```bash
    cd IntDevQA
 
-3. **Run the Script: Execute the synchronization script with required command line arguments.
+3. **Run the Script:** Execute the synchronization script with required command line arguments.
    ```bash
    python src/sync.py /path/to/source /path/to/replica 60 /path/to/logfile.log
