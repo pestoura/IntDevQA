@@ -47,7 +47,7 @@ IntDevQA/
 
 ## Running Tests
 
-To run the unit tests, use the following command:
+To run the unit tests, use the following command:  
     ```bash
    python -m unittest discover -s tests
 
