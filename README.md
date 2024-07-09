@@ -34,9 +34,9 @@ IntDevQA/
 
 2. **Navigate to Directory: Enter the project directory.
 
-   '''bash
+   ```bash
    cd IntDevQA
 
-3. Run the Script: Execute the synchronization script with required command line arguments.
-   '''bash
+3. **Run the Script: Execute the synchronization script with required command line arguments.
+   ```bash
    python src/sync.py /path/to/source /path/to/replica 60 /path/to/logfile.log
