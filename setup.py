@@ -16,7 +16,7 @@ setup(
         ],
     },
     author='Pedro Estoura',
-    author_email='pedro.estoura',
+    author_email='pedro.estoura@gmail.com',
     description='A Python tool for folder synchronization',
     url='https://github.com/pestoura/IntDevQA',
     license='MIT',
