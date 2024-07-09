@@ -1,5 +1,3 @@
-# src/sync.py
-
 import os
 import time
 import argparse
@@ -7,9 +5,21 @@ import logging
 import hashlib
 import subprocess
 
-# Initialize the logger
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
-logger = logging.getLogger(__name__)
+def configure_logging(log_file):
+    """
+    Configure logging to log messages to a file.
+
+    Args:
+        log_file (str): Path to the log file.
+    """
+    logging.basicConfig(level=logging.INFO, 
+                        format='%(asctime)s - %(levelname)s - %(message)s',
+                        handlers=[
+                            logging.FileHandler(log_file),
+                            logging.StreamHandler()
+                        ])
+    logger = logging.getLogger(__name__)
+    return logger
 
 def calculate_md5(file_path):
     """
@@ -27,13 +37,14 @@ def calculate_md5(file_path):
             hash_md5.update(chunk)
     return hash_md5.hexdigest()
 
-def sync_folders(source, replica):
+def sync_folders(source, replica, logger):
     """
     Synchronize the source folder with the replica folder using rsync.
 
     Args:
         source (str): Path to the source folder.
         replica (str): Path to the replica folder.
+        logger (logging.Logger): Logger object.
     """
     try:
         rsync_command = ["rsync", "-av", "--delete", source + "/", replica]
@@ -60,6 +71,9 @@ def parse_arguments():
 def main():
     args = parse_arguments()
 
+    # Configure logger
+    logger = configure_logging(args.log_file)
+
     # Validate source and replica paths
     if not os.path.isdir(args.source):
         logger.error(f"Source path '{args.source}' is not a valid directory.")
@@ -69,7 +83,7 @@ def main():
         return
 
     while True:
-        sync_folders(args.source, args.replica)
+        sync_folders(args.source, args.replica, logger)
         time.sleep(args.interval)
 
 if __name__ == '__main__':
