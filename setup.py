@@ -18,6 +18,6 @@ setup(
     author='Pedro Estoura',
     author_email='pedro.estoura',
     description='A Python tool for folder synchronization',
-    url='https://github.com/your-username/folder-sync',
+    url='https://github.com/pestoura/IntDevQA',
     license='MIT',
 )
