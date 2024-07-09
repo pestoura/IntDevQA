@@ -16,16 +16,21 @@ def sync_folders(source_dir, replica_dir, logger=None):
                 dst_file_path = os.path.join(replica_dir, rel_path)
 
                 # Perform synchronization operations (copy, delete, etc.)
-                shutil.copy2(src_file_path, dst_file_path)
-                logger.info(f"Copied file: {src_file_path} to {dst_file_path}")
+                if os.path.exists(dst_file_path):
+                    # Update or delete existing file in replica
+                    # Example logic to delete:
+                    if not os.path.exists(src_file_path):
+                        os.remove(dst_file_path)
+                        logger.info(f"Deleted file: {dst_file_path}")
+                else:
+                    # Copy new file to replica
+                    shutil.copy2(src_file_path, dst_file_path)
+                    logger.info(f"Copied file: {src_file_path} to {dst_file_path}")
+
+        # Additional logic for handling files only in replica folder should be added if needed
 
     except Exception as e:
         logger.error(f"Error during synchronization: {str(e)}")
         raise
     else:
         logger.info("Synchronization complete")
-
-if __name__ == "__main__":
-    # Example usage if running this script directly
-    logging.basicConfig(level=logging.INFO)
-    sync_folders("/path/to/source", "/path/to/replica")
