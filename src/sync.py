@@ -17,11 +17,11 @@ def sync_folders(source_dir, replica_dir, logger=None):
 
                 # Perform synchronization operations (copy, delete, etc.)
                 if os.path.exists(dst_file_path):
-                    # Update or delete existing file in replica
-                    # Example logic to delete:
-                    if not os.path.exists(src_file_path):
-                        os.remove(dst_file_path)
-                        logger.info(f"Deleted file: {dst_file_path}")
+                    # Update existing file in replica if different
+                    with open(src_file_path, 'r') as src_file, open(dst_file_path, 'r') as dst_file:
+                        if src_file.read() != dst_file.read():
+                            shutil.copy2(src_file_path, dst_file_path)
+                            logger.info(f"Updated file: {dst_file_path}")
                 else:
                     # Copy new file to replica
                     shutil.copy2(src_file_path, dst_file_path)
