@@ -8,12 +8,15 @@ def sync_folders(source_dir, replica_dir, interval, log_file):
     # Configurar o logger
     logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
-    # Adicionar um manipulador para log para a saída da console
-    console_handler = logging.StreamHandler()
-    console_handler.setLevel(logging.INFO)
-    formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
-    console_handler.setFormatter(formatter)
-    logging.getLogger().addHandler(console_handler)
+    # Verificar se já existe um manipulador para a console
+    root_logger = logging.getLogger()
+    if not root_logger.handlers:
+        # Adicionar um manipulador para log para a saída da console
+        console_handler = logging.StreamHandler()
+        console_handler.setLevel(logging.INFO)
+        formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+        console_handler.setFormatter(formatter)
+        root_logger.addHandler(console_handler)
 
     logger = logging.getLogger(__name__)
 
