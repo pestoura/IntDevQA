@@ -1,90 +1,31 @@
 import os
-import time
-import argparse
+import shutil
 import logging
-import hashlib
-import subprocess
 
-def configure_logging(log_file):
-    """
-    Configure logging to log messages to a file.
+def sync_folders(source_dir, replica_dir, logger=None):
+    if logger is None:
+        logger = logging.getLogger(__name__)
 
-    Args:
-        log_file (str): Path to the log file.
-    """
-    logging.basicConfig(level=logging.INFO, 
-                        format='%(asctime)s - %(levelname)s - %(message)s',
-                        handlers=[
-                            logging.FileHandler(log_file),
-                            logging.StreamHandler()
-                        ])
-    logger = logging.getLogger(__name__)
-    return logger
-
-def calculate_md5(file_path):
-    """
-    Calculate the MD5 hash of a file.
-
-    Args:
-        file_path (str): Path to the file.
-
-    Returns:
-        str: MD5 hash of the file.
-    """
-    hash_md5 = hashlib.md5()
-    with open(file_path, "rb") as f:
-        for chunk in iter(lambda: f.read(4096), b""):
-            hash_md5.update(chunk)
-    return hash_md5.hexdigest()
-
-def sync_folders(source, replica, logger):
-    """
-    Synchronize the source folder with the replica folder using rsync.
-
-    Args:
-        source (str): Path to the source folder.
-        replica (str): Path to the replica folder.
-        logger (logging.Logger): Logger object.
-    """
     try:
-        rsync_command = ["rsync", "-av", "--delete", source + "/", replica]
-        subprocess.run(rsync_command, check=True)
-        logger.info('Synchronization complete')
-    except subprocess.CalledProcessError as e:
-        logger.error(f"Error during synchronization: {e}")
-        logger.error(f"Command executed: {' '.join(rsync_command)}")
+        # Logic for synchronization
+        # Example:
+        for root, _, files in os.walk(source_dir):
+            for file in files:
+                src_file_path = os.path.join(root, file)
+                rel_path = os.path.relpath(src_file_path, source_dir)
+                dst_file_path = os.path.join(replica_dir, rel_path)
 
-def parse_arguments():
-    """
-    Parse command line arguments.
+                # Perform synchronization operations (copy, delete, etc.)
+                shutil.copy2(src_file_path, dst_file_path)
+                logger.info(f"Copied file: {src_file_path} to {dst_file_path}")
 
-    Returns:
-        argparse.Namespace: Parsed arguments object.
-    """
-    parser = argparse.ArgumentParser(description='Synchronize two folders.')
-    parser.add_argument('source', help='Source folder path')
-    parser.add_argument('replica', help='Replica folder path')
-    parser.add_argument('interval', type=int, help='Synchronization interval in seconds')
-    parser.add_argument('log_file', help='Log file path')
-    return parser.parse_args()
+    except Exception as e:
+        logger.error(f"Error during synchronization: {str(e)}")
+        raise
+    else:
+        logger.info("Synchronization complete")
 
-def main():
-    args = parse_arguments()
-
-    # Configure logger
-    logger = configure_logging(args.log_file)
-
-    # Validate source and replica paths
-    if not os.path.isdir(args.source):
-        logger.error(f"Source path '{args.source}' is not a valid directory.")
-        return
-    if not os.path.isdir(args.replica):
-        logger.error(f"Replica path '{args.replica}' is not a valid directory.")
-        return
-
-    while True:
-        sync_folders(args.source, args.replica, logger)
-        time.sleep(args.interval)
-
-if __name__ == '__main__':
-    main()
+if __name__ == "__main__":
+    # Example usage if running this script directly
+    logging.basicConfig(level=logging.INFO)
+    sync_folders("/path/to/source", "/path/to/replica")
