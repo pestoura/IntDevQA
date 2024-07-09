@@ -48,15 +48,18 @@ IntDevQA/
 ## Running Tests
 
 To run the unit tests, use the following command:
-``bash
-python src/sync.py /path/to/source /path/to/replica 60 /path/to/logfile.log
 
+``bash
+python -m unittest discover -s tests
 The tests will verify the following functionalities:
 
-**File Creation:** Checks if files created in the source directory are copied to the replica directory.  
-**File Deletion:** Checks if files deleted from the source directory are removed from the replica directory. 
-**File Update:** Checks if files updated in the source directory are updated in the replica directory.  
-**Logging:** Verifies that log entries are recorded correctly after synchronization, including creation, deletion, and update of files.
+- **File Creation:** Checks if files created in the source directory are copied to the replica directory.
+
+- **File Deletion:** Checks if files deleted from the source directory are removed from the replica directory.
+
+- **File Update:** Checks if files updated in the source directory are updated in the replica directory.
+
+- **Logging:** Verifies that log entries are recorded correctly after synchronization, including creation, deletion, and update of files.
 
 ## Contributing
 
