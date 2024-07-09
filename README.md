@@ -10,10 +10,6 @@ IntDevQA/
 │   ├── __init__.py  
 │   └── sync.py  
 │  
-├── tests/  
-│   ├── __init__.py  
-│   └── test_sync.py  
-│  
 ├── README.md  
 ├── requirements.txt  
 └── setup.py 
