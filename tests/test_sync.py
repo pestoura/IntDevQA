@@ -3,15 +3,17 @@ import unittest
 import tempfile
 import shutil
 import logging
-from src.sync import sync_folders  # Assuming sync_folders is defined in src.sync
+from src.sync import sync_folders
 
 class TestFolderSync(unittest.TestCase):
 
     def setUp(self):
+        # Create temporary log file
+        self.log_file = tempfile.mktemp()
+
         # Create temporary directories for source and replica
         self.source_dir = tempfile.mkdtemp()
         self.replica_dir = tempfile.mkdtemp()
-        self.log_file = tempfile.mktemp()
 
         # Set up logging
         logging.basicConfig(filename=self.log_file, level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -94,8 +96,7 @@ class TestFolderSync(unittest.TestCase):
         with open(self.log_file, 'r') as log:
             log_content = log.read()
         self.assertIn('Synchronization complete', log_content)
-        self.assertIn('Copied file', log_content)  # Adjust according to your actual log messages
+        self.assertIn('Copied file', log_content)  # Adjust to match the actual log message generated
 
 if __name__ == '__main__':
     unittest.main()
-
