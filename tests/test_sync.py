@@ -49,23 +49,29 @@ class TestSyncFolders(unittest.TestCase):
     @patch('src.sync.calculate_file_hash')
     @patch('src.sync.time.sleep', return_value=None)
     def test_sync_folders(self, mock_sleep, mock_calculate_file_hash, mock_copy2, mock_os_walk):
+        # Simula os arquivos retornados por os.walk
         mock_os_walk.return_value = [
             (self.source_dir, [], ['test1.txt', 'test2.txt'])
         ]
 
+        # Simula o cálculo do hash para os arquivos
         def mock_file_hash_side_effect(file_path):
             return {
                 os.path.join(self.source_dir, 'test1.txt'): 'hash1',
                 os.path.join(self.source_dir, 'test2.txt'): 'hash2',
-                os.path.join(self.replica_dir, 'test1.txt'): 'hash1',
+                os.path.join(self.replica_dir, 'test1.txt'): 'hash1',  # Simula que o arquivo já existe no destino com o mesmo hash
             }.get(file_path, None)
         
         mock_calculate_file_hash.side_effect = mock_file_hash_side_effect
 
+        # Executa a função de sincronização
         with patch('src.sync.open', mock_open()) as mocked_file:
             sync_folders(self.source_dir, self.replica_dir, self.interval, self.log_file, max_iterations=1)
         
-        mock_copy2.assert_called_once_with(os.path.join(self.source_dir, 'test2.txt'), os.path.join(self.replica_dir, 'test2.txt'))
+        # Verifica se shutil.copy2 foi chamado corretamente
+        mock_copy2.assert_any_call(os.path.join(self.source_dir, 'test1.txt'), os.path.join(self.replica_dir, 'test1.txt'))
+        mock_copy2.assert_any_call(os.path.join(self.source_dir, 'test2.txt'), os.path.join(self.replica_dir, 'test2.txt'))
+        self.assertEqual(mock_copy2.call_count, 2)  # Verifica se copy2 foi chamado duas vezes
 
     @patch('src.sync.os.walk')
     @patch('src.sync.shutil.copy2')
