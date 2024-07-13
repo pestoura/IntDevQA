@@ -4,16 +4,16 @@ This Python script facilitates one-way synchronization of two folders: a source 
 
 ## Project Structure and Conventions
 
-IntDevQA/
-├── README.md
-├── requirements.txt
-├── setup.py
-├── src/
-│ ├── init.py
-│ └── sync.py
-└── tests/
-├── init.py
-└── test_sync.py
+IntDevQA/  
+├── README.md  
+├── requirements.txt  
+├── setup.py  
+├── src/  
+│ ├── init.py  
+│ └── sync.py  
+└── tests/  
+├── init.py  
+└── test_sync.py  
 
 ## Features
 
