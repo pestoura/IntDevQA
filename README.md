@@ -47,6 +47,12 @@ IntDevQA/
 - Replace **/path/to/source**, **/path/to/replica**, 60, and **/path/to/logfile.log** with appropriate values for your setup.
 - Note: The synchronization interval (60 in this example) is specified in seconds.
 
+## Running Tests
+To run tests for the synchronization script:
+   ```bash
+    python -m unittest discover -s tests -p "*.py"
+```
+
 ## Contributing
 
 Contributions are welcome! If you find any issues or have suggestions for improvements, please feel free to submit issues or pull requests.
