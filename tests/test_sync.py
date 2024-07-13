@@ -63,7 +63,7 @@ class TestSyncFolders(unittest.TestCase):
         mock_calculate_file_hash.side_effect = mock_file_hash_side_effect
 
         with patch('src.sync.open', mock_open()) as mocked_file:
-            sync_folders(self.source_dir, self.replica_dir, self.interval, self.log_file)
+            sync_folders(self.source_dir, self.replica_dir, self.interval, self.log_file, max_iterations=1)
         
         mock_copy2.assert_called_once_with(os.path.join(self.source_dir, 'test2.txt'), os.path.join(self.replica_dir, 'test2.txt'))
 
@@ -79,7 +79,7 @@ class TestSyncFolders(unittest.TestCase):
         mock_get_logger.return_value = mock_logger
 
         with self.assertRaises(Exception):
-            sync_folders(self.source_dir, self.replica_dir, self.interval, self.log_file)
+            sync_folders(self.source_dir, self.replica_dir, self.interval, self.log_file, max_iterations=1)
         
         mock_logger.error.assert_called_once_with("Error during synchronization: Test error")
 
