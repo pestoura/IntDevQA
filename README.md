@@ -12,8 +12,8 @@ IntDevQA/
 │ ├── init.py  
 │ └── sync.py  
 └── tests/  
-├── init.py  
-└── test_sync.py  
+  ├── init.py  
+  └── test_sync.py  
 
 ## Features
 
